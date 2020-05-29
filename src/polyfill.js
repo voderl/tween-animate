@@ -8,7 +8,6 @@
 // Expected to be used with Browserfiy
 // Browserify automatically detects the use of `global` and passes the
 // correct reference of `global`, `self`, and finally `window`
-
 const ONE_FRAME_TIME = 16;
 
 // Date.now
@@ -38,7 +37,8 @@ for (let x = 0; x < vendors.length && !global.requestAnimationFrame; ++x) {
 
   global.requestAnimationFrame = global[`${p}RequestAnimationFrame`];
   global.cancelAnimationFrame =
-    global[`${p}CancelAnimationFrame`] || global[`${p}CancelRequestAnimationFrame`];
+    global[`${p}CancelAnimationFrame`] ||
+    global[`${p}CancelRequestAnimationFrame`];
 }
 
 if (!global.requestAnimationFrame) {

@@ -15,7 +15,25 @@ fade，
 
 ```js
 import { Animate, Easing } from 'Tween';
-const anime = new Animate({
+const loop = new Transform(num);
+loop(9);
+Transform.register(funtion (animate, num) {
+
+})
+Transform.get('loop', 9)  function (animate) {
+                              registered(animate, num);
+                          }
+Transform : { 专门注册的变换, 更改自身，独立开来
+  loop(num) {
+    return function(Animate) {
+
+    }
+  }
+  reverse() {
+
+  }
+}
+Animate({
   from: 0,
   to: 1,
   easing: , // 变化， 组合Animate， 设计是只应用一个，但是可以应用多个
@@ -27,6 +45,11 @@ const anime = new Animate({
   animates: [
 
   ],
+  extend ：创建一个新的 {}, Transform, {}, Transform
+  update: { // 改变自身  // 应用组件，
+    .reverse(); // 播放开始，播放结束 // 组件的拓展
+    reversed Loop();
+  }
   EventEmitter: {
     start,
     end,
@@ -36,11 +59,14 @@ const anime = new Animate({
     destroy,
   }
 })
+EventEmitter:{
+
+}
 AnimateInstance: {
   status: initial, playing, stop, end
   play();
   stop();
-  Animate: { // 结束后默认
+  Animate: { // 结束后默认, 如果要加事件 不如直接一个新的Animate
 
   }
   on: {

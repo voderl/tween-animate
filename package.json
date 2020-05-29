@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "help": "webpack --help",
-    "serve": "webpack-dev-server --config webpack.dev.js",
+    "serve": "webpack-dev-server --config webpack.dev.js --open",
     "build": "webpack --config webpack.prod.js"
   },
   "keywords": [],
@@ -27,5 +27,7 @@
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.2.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "eventemitter3": "^4.0.4"
+  }
 }

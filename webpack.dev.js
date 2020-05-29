@@ -7,8 +7,7 @@ module.exports = merge(common, {
   mode: 'development',
   devtool: 'inline-source-map',
   devServer: {
-    contentBase: path.join(__dirname, 'test'),
-    open: true,
+    contentBase: path.join(__dirname, 'dist'),
   },
   plugins: [
     // new webpack.HotModuleReplacementPlugin(),
