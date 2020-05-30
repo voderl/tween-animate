@@ -14,26 +14,31 @@ module.exports = merge(common, {
   // optimization: {
   //   minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
   // },
-  target: 'web',
+  entry: {
+    index: './src/index.js',
+  },
   output: {
+    library: 'tween',
     publicPath: './',
+    libraryTarget: 'umd',
     hashDigestLength: 8,
-    filename: '[name].[hash].bundle.js',
-    chunkFilename: '[name].[hash].bundle.js',
+    filename: 'tween.umd.js',
+    umdNamedDefine: true,
+    // chunkFilename: '[name].[hash].bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
   plugins: [new CleanWebpackPlugin()],
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /(node_modules|bower_components)/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-          },
-        },
+        // test: /\.js$/,
+        // exclude: /(node_modules|bower_components)/,
+        // use: {
+        //   loader: 'babel-loader',
+        //   options: {
+        //     presets: ['@babel/preset-env'],
+        //   },
+        // },
       },
     ],
   },
