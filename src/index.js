@@ -1,6 +1,6 @@
 import './polyfill';
-import EventEmitter from 'eventemitter3';
 import Easing from './Easing';
+import Transform from './Transform';
 import { Animate, update, List } from './Animate';
 
-export { Animate, update, List, Easing };
+export { Animate, update, List, Easing, Transform };
