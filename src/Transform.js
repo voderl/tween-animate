@@ -1,8 +1,10 @@
+import { isAnimate } from './Animate';
+
 const Transform = {
   register(id, func) {
     this[id] = function (...args) {
+      if (args.length === 1 && isAnimate(args[0])) return func(args[0]);
       return function transformAnimate(animate) {
-        if (!animate) return func;
         func(animate, ...args);
       };
     };

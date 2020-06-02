@@ -28,14 +28,19 @@ const utils = {
     }
     return arr;
   },
-  clone(obj) {
-    if (typeof obj !== 'object') return obj;
+  clone(obj, cloner) {
     const newObj = Array.isArray(obj) ? [] : {};
     for (const key in obj) {
       const val = obj[key];
-      newObj[key] = typeof val === 'object' ? this.clone(val) : val;
+      let value = cloner(key, val);
+      if (value === undefined) {
+        newObj[key] = typeof val === 'object' ? this.clone(val, cloner) : val;
+      } else newObj[key] = value;
     }
     return newObj;
+  },
+  isDef(v) {
+    return v !== undefined && v !== null;
   },
   cached(fn) {
     const cache = Object.create(null);

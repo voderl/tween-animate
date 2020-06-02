@@ -1,5 +1,5 @@
 import { Animate, update, Easing, Transform, List } from '../src';
-const { assert, should, expect } = require('chai');
+const { assert } = require('chai');
 let now = 0;
 performance.now = () => 0;
 function ticker(elpased) {
