@@ -8,6 +8,7 @@
     "serve": "webpack-dev-server --config webpack.dev.js --open",
     "build": "webpack --config webpack.prod.js",
     "test": "webpack --config \"./test/webpack.js\" & mocha ./test/bundle/test.bundle.js",
+    "validate": "webpack --config \"./test/webpack.validate.js\" & mocha ./test/bundle/validate.bundle.js",
     "mocha": "mocha ./test/bundle/test.bundle.js"
   },
   "keywords": [
