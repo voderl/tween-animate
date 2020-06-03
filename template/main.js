@@ -2,21 +2,22 @@ const { Animate, update, Easing, Transform, List } = tween;
 
 function createZone(x, y, color) {
   const el = document.createElement('div');
-  el.className = 'zone';
+  el.style.position = 'absolute';
+  el.style.width = '100px';
+  el.style.height = '100px';
   el.style.backgroundColor = color;
   el.style.left = `${x}px`;
   el.style.top = `${y}px`;
   document.body.appendChild(el);
   return el;
 }
-const greenBox = createZone(100, 100, '#008800');
-const redBox = createZone(500, 500, 'red');
+const greenBox = createZone(0, 0, '#008800');
+const redBox = createZone(400, 100, 'red');
 
 let time = performance.now();
 function ticker(timestamp) {
-  const elpased = timestamp - time;
+  update(timestamp - time);
   time = timestamp;
-  update(elpased);
   requestAnimationFrame(ticker);
 }
 requestAnimationFrame(ticker);
@@ -48,6 +49,6 @@ const moveYoyo = move.extend(Transform.yoyo(), Transform.loop(Infinity));
 moveYoyo
   .render({
     x: 300,
-    y: 200,
+    y: 150,
   })
   .apply(greenBox, redBox);
