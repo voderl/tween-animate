@@ -1,6 +1,6 @@
 {
   "name": "tween-animate",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "a tween animate library",
   "scripts": {
     "help": "webpack --help",
