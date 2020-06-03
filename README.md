@@ -1,5 +1,25 @@
 # tween-animate
 
+- [tween-animate](#tween-animate)
+  - [template](#template)
+  - [how to use](#how-to-use)
+  - [feature](#feature)
+  - [userguide](#userguide)
+    - [Animate](#animate)
+      - [basic construction](#basic-construction)
+      - [from and to](#from-and-to)
+      - [apply](#apply)
+      - [render](#render)
+      - [combined](#combined)
+      - [extend](#extend)
+    - [update](#update)
+    - [Easing](#easing)
+    - [Transform](#transform)
+    - [List](#list)
+  - [problems](#problems)
+  - [install](#install)
+  - [build](#build)
+
 ## template
 
 ```js
@@ -73,17 +93,7 @@ moveYoyo
 - easily transform on animte.(reverse, yoyo, loop);
 - better performance (maybe...).
 
-## problems
-
-if you have an animate lasted 10 milliseconds, loops 99;
-you let it update(1000), then it just complete one loop, left loop 98.
-
-if you use delayed to directly update it's delayed, when it loop Infinity and you leave this page,
-when you back to this page, Maximum call stack size exceeded.
-
-so update(num) is not recommended.
-
-## use
+## userguide
 
 ### Animate
 
@@ -93,8 +103,9 @@ so update(num) is not recommended.
 const base = Animate({
   from: 0,
   to: 1,
-  easing: easingFunction,
+  easing: easingFunction, // see Easing Section
   time: 1000,
+  list: // tween.update(elpased, list) in AnimationFrame, you can set your list Array and update manually
   update(el, v) {
     // every element will call this method
     // el: Element to which the animation is applied
@@ -112,10 +123,6 @@ Number, Object;
 ```
 
 if options don't have "from" property, "from" will be getted from applied elements.
-
-#### easing
-
-[details](https://github.com/tweenjs/tween.js/blob/master/docs/user_guide.md#user-content-available-easing-functions-tweeneasing)
 
 #### apply
 
@@ -159,6 +166,96 @@ Animate.render({
 
 // you can set assgin false and give it an update function to achieve from { x: 20px, y: 20px} to { x: 200px, y: 200px}
 ```
+
+#### combined
+
+```js
+const combined = Animate(animate1, 900, animate2);
+// play animate1, then wait 900, then play animate2;
+const combined = Animate(animate1, [900, animate3], animate2);
+// play animate1, then wait 900 and animate3 all complete, then play animate2; notice: if have array,  maybe looks weird
+```
+
+#### extend
+
+create an new animate extend base Aniamte
+
+```js
+const base = Animate({
+  from: 0,
+  to: 1,
+});
+const base2 = base.extend({
+  to: 3,
+});
+const base3 = base.extend(Transform.loop(9));
+```
+
+### update
+
+```js
+function ticker(timestamp) {
+  update(timestamp - time);
+  time = timestamp;
+  requestAnimationFrame(ticker);
+}
+requestAnimationFrame(ticker);
+```
+
+you can also set your list,
+
+```js
+const myList = [];
+Animate({
+  list: myList,
+});
+let time = performance.now();
+function ticker(timestamp) {
+  update(timestamp - time, myList);
+  time = timestamp;
+  requestAnimationFrame(ticker);
+}
+requestAnimationFrame(ticker);
+```
+
+### Easing
+
+[details](https://github.com/tweenjs/tween.js/blob/master/docs/user_guide.md#user-content-available-easing-functions-tweeneasing)
+
+### Transform
+
+- reverse
+- loop
+- yoyo
+  [test it on Codepen](https://codepen.io/voderl/pen/yLeLgEo)
+
+```js
+const show = Animate({
+  from: 0,
+  to: 1,
+  update(el, v) {
+    el.style.opacity = v;
+  },
+});
+const showAndHide = show.extend(Transform.yoyo());
+const showAndHide2 = showAndHide(Transform.loop(2));
+const showAndHide4 = showAndHide2(Transform.loop(2));
+showAndHide4.apply(el);
+```
+
+### List
+
+default update list
+
+## problems
+
+if you have an animate lasted 10 milliseconds, loops 99;
+you let it update(1000), then it just complete one loop, left loop 98.
+
+if you use delayed to directly update it's delayed, when it loop Infinity and you leave this page,
+when you back to this page, Maximum call stack size exceeded.
+
+so update(num) is not recommended.
 
 ## install
 
