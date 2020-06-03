@@ -61,7 +61,7 @@ class BaseAnimateInstance {
   complete() {
     this.emit('complete');
     this.stop();
-    if (typeof this.callback === 'function') this.callback(this.delayed);
+    if (typeof this.callback === 'function') this.callback();
     if (this.isRoot) this.destroy();
   }
 
@@ -107,7 +107,6 @@ class AnimateInstance extends BaseAnimateInstance {
 
   begin() {
     super.begin();
-    if (this.delayed) this.update(this.delayed);
   }
 
   complete() {
@@ -157,7 +156,6 @@ class AnimateInstance extends BaseAnimateInstance {
       }
     }
     if (completed) {
-      this.delayed = this.time - this.startTime - fullTime;
       this.end();
     }
   }
@@ -185,9 +183,8 @@ class AnimateInstanceChain extends BaseAnimateInstance {
     this.instanceChain = chain;
   }
 
-  next(delayed = 0) {
+  next() {
     const { count, instanceChain, isReversed } = this;
-    this.delayed = delayed;
     if (count >= instanceChain.length) {
       this.end();
       return;
@@ -200,7 +197,6 @@ class AnimateInstanceChain extends BaseAnimateInstance {
     const data = {
       isReversed: this.isReversed,
       speed: this.speed,
-      delayed: this.delayed,
     };
     if (Array.isArray(v)) {
       const waitAll = waitAllComplete(v.length, cb);
@@ -232,8 +228,7 @@ class AnimateInstanceChain extends BaseAnimateInstance {
   begin() {
     super.begin();
     this.count = 0;
-    this.next(this.delayed);
-    this.delay = 0;
+    this.next();
   }
 
   destroy() {
