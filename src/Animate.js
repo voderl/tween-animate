@@ -15,11 +15,9 @@ function isAnimate(animate) {
 
 function update(elpased, list = List) {
   if (list.length === 0) return;
-  list.forEach((instance) => {
-    if (instance.isPlaying) {
-      instance.update(elpased);
-    }
-  });
+  for (let i = 0, len = list.length; i < len; i++) {
+    if (list[i].isPlaying) list[i].update(elpased);
+  }
 }
 
 function Animate(param) {
