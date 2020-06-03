@@ -22,6 +22,8 @@
 
 ## template
 
+[Test it with Codepen](https://codepen.io/voderl/pen/LYGYYeM)
+
 ```js
 const { Animate, update, Easing, Transform, List } = tween;
 
@@ -81,11 +83,14 @@ moveYoyo
 
 ## how to use
 
-[Test it with Codepen](https://codepen.io/voderl/pen/LYGYYeM)
-
-```html
-<script src="https://unpkg.com/tween-animate"></script>
-```
+- download
+  ```url
+  https://github.com/voderl/tween-animate/blob/master/dist/tween.umd.js
+  ```
+- cdn
+  ```html
+  <script src="https://unpkg.com/tween-animate"></script>
+  ```
 
 ## feature
 
