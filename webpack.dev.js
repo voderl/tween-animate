@@ -2,6 +2,7 @@ const merge = require('webpack-merge');
 const path = require('path');
 const webpack = require('webpack');
 const common = require('./webpack.common.js');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = merge(common, {
   mode: 'development',
@@ -9,8 +10,15 @@ module.exports = merge(common, {
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
   },
+  // plugins: [
+  //   // new webpack.HotModuleReplacementPlugin(),
+  // ],
   plugins: [
-    // new webpack.HotModuleReplacementPlugin(),
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: path.resolve(__dirname, 'test', 'index.html'),
+      chunks: ['vendors', 'index'],
+    }),
   ],
   output: {
     publicPath: '',
