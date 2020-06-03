@@ -1,8 +1,7 @@
 {
   "name": "tween-animate",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "a tween animate library",
-  "private": true,
   "scripts": {
     "help": "webpack --help",
     "serve": "webpack-dev-server --config webpack.dev.js --open",
@@ -15,6 +14,7 @@
     "tween",
     "aniamte"
   ],
+  "main": "./tween.umd.js",
   "author": "voderl",
   "license": "ISC",
   "devDependencies": {
