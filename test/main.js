@@ -12,16 +12,19 @@ box.style.setProperty('height', '100px');
 document.body.appendChild(box);
 window.box = box;
 let time = performance.now();
-
+// const requestAnimationFrame = (fn) => {
+//   setTimeout(() => fn(time + 17));
+// };
 function ticker(timestamp) {
   const elpased = timestamp - time;
   time = timestamp;
-  try {
-    update(elpased);
-    requestAnimationFrame(ticker);
-  } catch (err) {
-    console.log(err);
-  }
+  update(elpased);
+  requestAnimationFrame(ticker);
+  // try {
+
+  // } catch (err) {
+  //   throw err;
+  // }
 }
 requestAnimationFrame(ticker);
 
@@ -58,7 +61,7 @@ setTimeout(() => {
       };
     },
     easing: Easing.Quadratic.In,
-    time: 1000,
+    time: 100,
     update(el, v) {
       // change sortable
       el.style.setProperty('transform', `translate(${v.x}px, ${v.y}px)`);
@@ -66,12 +69,15 @@ setTimeout(() => {
     assign: false,
   });
   const move2 = move.extend(Transform.yoyo());
-  const MoveDelayYoyo = Animate(move, 1000, move.extend(Transform.reverse));
+  const MoveDelayYoyo = Animate(move, move.extend(Transform.reverse));
   const base2 = base.extend(Transform.yoyo());
-  MoveDelayYoyo.render({
-    x: 300,
-    y: 200,
-  }).apply(box);
+  const loop = MoveDelayYoyo.extend(Transform.loop(Infinity));
+  loop
+    .render({
+      x: 300,
+      y: 200,
+    })
+    .apply(box);
   // console.log(base2);
   // base2.apply(0);
 });
