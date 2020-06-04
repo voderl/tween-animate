@@ -29,12 +29,14 @@ const { Animate, update, Easing, Transform, List } = tween;
 
 function createZone(x, y, color) {
   const el = document.createElement('div');
-  el.style.position = 'absolute';
-  el.style.width = '100px';
-  el.style.height = '100px';
-  el.style.backgroundColor = color;
-  el.style.left = `${x}px`;
-  el.style.top = `${y}px`;
+  el.style.cssText = `
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background-color: ${color};
+    left: ${x}px;
+    top: ${y}px;
+  `;
   document.body.appendChild(el);
   return el;
 }
