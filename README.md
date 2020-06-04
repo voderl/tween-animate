@@ -35,8 +35,7 @@ function createZone(x, y, color) {
     height: 100px;
     background-color: ${color};
     left: ${x}px;
-    top: ${y}px;
-  `;
+    top: ${y}px;`;
   document.body.appendChild(el);
   return el;
 }
@@ -115,7 +114,7 @@ const base = Animate({
   list: // tween.update(elpased, list) in AnimationFrame, you can set your list Array and update manually
   update(el, v) {
     // every element will call this method
-    // el: Element to which the animation is applied
+    // el: Element to which this animation is applied
     // v: easing value (if it is an object, its value will change)
   },
   // default: true, when "from" and "to" are both object, or just has "to"("from" is getted from applied element), is change the applied element ?
@@ -139,8 +138,9 @@ base.apply(el1, el2, el3, el4, function callback() {});
 
 #### render
 
-In some situations, we need an animate can render its option.(only some property support render [from, to, time]);  
-Simultaneously,just for from and to property, if you get function after render, it will apply each element to get value
+In some situations, we need an animate can render its option, so we get render function. but now render function is only provided for [from, to, time];
+
+Simultaneously,just for "from" and "to" property, if you get function after render, it will apply each element to get its value.
 
 ```js
 const base = Animate({
@@ -159,6 +159,10 @@ const base = Animate({
     }
   },
   time: 1000,
+  update(el, v) {
+    el.x = `${v.x}px`;
+    el.y = `${v.y}px`;
+  }
 })
 const el = {
   x: '20px',
@@ -169,9 +173,7 @@ Animate.apply(el)  // throw error
 Animate.render({
   x: 200,
   y: 400,
-}).apply(el)  // el will ease from { x: 20, y: 20} to { x: 200, y: 400}
-
-// you can set assgin false and give it an update function to achieve from { x: 20px, y: 20px} to { x: 200px, y: 200px}
+}).apply(el)  // el will ease from { x: 20px, y: 20px} to { x: 200px, y: 200px}
 ```
 
 #### combined
@@ -180,7 +182,7 @@ Animate.render({
 const combined = Animate(animate1, 900, animate2);
 // play animate1, then wait 900, then play animate2;
 const combined = Animate(animate1, [900, animate3], animate2);
-// play animate1, then wait 900 and animate3 all complete, then play animate2; notice: if have array,  maybe looks weird
+// play animate1, then wait 900 and animate3 are all completed, then play animate2; notice: if list have array, when it extends Transform.reverse, it maybe looks weird.
 ```
 
 #### extend
@@ -235,7 +237,8 @@ requestAnimationFrame(ticker);
 - reverse
 - loop
 - yoyo
-  [test it on Codepen](https://codepen.io/voderl/pen/yLeLgEo)
+
+[**test it on Codepen**](https://codepen.io/voderl/pen/yLeLgEo)
 
 ```js
 const show = Animate({
@@ -257,13 +260,12 @@ default update list
 
 ## problems
 
-if you have an animate lasted 10 milliseconds, loops 99;
-you let it update(1000), then it just complete one loop, left loop 98.
+if you have an animate lasted 10 milliseconds, looped 99;
+you let it update(1000), then it will just complete one loop, left loop 98.
 
-if you use delayed to directly update it's delayed, when it loop Infinity and you leave this page,
-when you back to this page, Maximum call stack size exceeded.
+if you try that update(1000) will successfully loop 99, when it loop Infinity and you leave this page, if the time you leaving is long, when you back to this page, Maximum call stack size exceeded.
 
-so update(num) is not recommended.
+so update(num) is not recommended....emmmm..it looks terrible
 
 ## install
 
