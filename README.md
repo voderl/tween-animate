@@ -199,6 +199,7 @@ const base3 = base.extend(Transform.loop(9));
 ### update
 
 ```js
+let time = performance.now();
 function ticker(timestamp) {
   update(timestamp - time);
   time = timestamp;
@@ -243,9 +244,9 @@ const show = Animate({
   },
 });
 const showAndHide = show.extend(Transform.yoyo());
-const showAndHide2 = showAndHide(Transform.loop(2));
-const showAndHide4 = showAndHide2(Transform.loop(2));
-showAndHide4.apply(el);
+const showAndHide4 = showAndHide(Transform.loop(3));
+const showAndHide9 = showAndHide2(Transform.loop(9));
+showAndHide9.apply(el);
 ```
 
 ### List
