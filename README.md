@@ -17,6 +17,7 @@
     - [Transform](#transform)
     - [List](#list)
   - [problems](#problems)
+  - [todo](#todo)
   - [install](#install)
   - [build](#build)
 
@@ -266,6 +267,10 @@ you let it update(1000), then it will just complete one loop, left loop 98.
 if you try that update(1000) will successfully loop 99, when it loop Infinity and you leave this page, if the time you leaving is long, when you back to this page, Maximum call stack size exceeded.
 
 so update(num) is not recommended....emmmm..it looks terrible
+
+## todo
+
+destroy 方法
 
 ## install
 
