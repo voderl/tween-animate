@@ -71,7 +71,7 @@ setTimeout(() => {
   const move2 = move.extend(Transform.yoyo());
   const MoveDelayYoyo = Animate(move, move.extend(Transform.reverse));
   const base2 = base.extend(Transform.yoyo());
-  const loop = MoveDelayYoyo.extend(Transform.loop(Infinity));
+  const loop = MoveDelayYoyo.extend(Transform.loop(10));
   loop
     .render({
       x: 300,
