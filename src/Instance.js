@@ -51,10 +51,14 @@ class BaseAnimateInstance {
   }
 
   play() {
+    this.animate.list.push(this);
     this.isPlaying = true;
   }
 
   stop() {
+    const list = this.animate.list;
+    const index = list.indexOf(this);
+    if (index > -1) list.splice(index, 1);
     this.isPlaying = false;
   }
 
@@ -107,13 +111,6 @@ class AnimateInstance extends BaseAnimateInstance {
 
   begin() {
     super.begin();
-  }
-
-  complete() {
-    const list = this.animate.list;
-    const i = list.indexOf(this);
-    if (i > -1) list.splice(i, 1);
-    super.complete();
   }
 
   update(elpased) {
