@@ -270,8 +270,6 @@ so update(num) is not recommended....emmmm..it looks terrible
 
 ## todo
 
-destroy 方法
-
 ## install
 
 ```
