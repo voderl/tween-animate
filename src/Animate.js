@@ -138,6 +138,15 @@ class BaseAnimate extends EventEmitter {
     return newAnimate;
   }
 
+  destroy() {
+    this.from = null;
+    this.to = null;
+    this.list = null;
+    this.easing = null;
+    this.update = null;
+    this.removeAllListeners();
+  }
+
   apply(...args) {
     if (this.needRender) throw new Error('you should render before apply');
     let cb;
@@ -242,6 +251,11 @@ class AnimateChain extends EventEmitter {
     });
     newAnimate.needRender = false;
     return newAnimate;
+  }
+
+  destroy() {
+    this.chain = null;
+    this.removeAllListeners();
   }
 
   apply(...args) {
