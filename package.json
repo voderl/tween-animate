@@ -3,9 +3,8 @@
   "version": "1.0.4",
   "description": "a tween animate library",
   "scripts": {
-    "help": "webpack --help",
-    "serve": "webpack-dev-server --config webpack.dev.js --open",
-    "build": "webpack --config webpack.prod.js",
+    "serve": "rollup -c --environment BUILD:development",
+    "build": "rollup -c --environment BUILD:production",
     "test": "webpack --config \"./test/webpack.js\" & mocha ./test/bundle/test.bundle.js",
     "validate": "webpack --config \"./test/webpack.validate.js\" & mocha ./test/bundle/validate.bundle.js",
     "mocha": "mocha ./test/bundle/test.bundle.js"
@@ -18,22 +17,20 @@
   "author": "voderl",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.10.3",
+    "@babel/preset-env": "^7.10.3",
+    "@rollup/plugin-babel": "^5.0.4",
+    "@rollup/plugin-commonjs": "^13.0.0",
+    "@rollup/plugin-node-resolve": "^8.1.0",
+    "@rollup/plugin-typescript": "^5.0.0",
     "chai": "^4.2.0",
-    "clean-webpack-plugin": "^3.0.0",
-    "css-loader": "^3.5.3",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
-    "eslint-plugin-import": "^2.20.2",
-    "file-loader": "^5.1.0",
-    "html-webpack-plugin": "^3.2.0",
-    "mini-css-extract-plugin": "^0.9.0",
     "mocha": "^7.2.0",
-    "style-loader": "^1.2.1",
-    "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11",
-    "webpack-dev-middleware": "^3.7.2",
-    "webpack-dev-server": "^3.11.0",
-    "webpack-merge": "^4.2.2"
+    "rollup": "^2.18.1",
+    "rollup-plugin-terser": "^6.1.0",
+    "tslib": "^2.0.0",
+    "typescript": "^3.9.5"
   },
   "dependencies": {
     "eventemitter3": "^4.0.4"
