@@ -1,23 +1,43 @@
 /**
  *  Vue props validate
  */
-function warn(data) {
+enum Types {
+  String,
+  Number,
+  Boolean,
+  Function,
+  Symbol,
+}
+type propOptionsKey = {
+  default?: any;
+  required?: boolean;
+  type?: Array<Types | boolean> | Types | boolean;
+  validator?: CallableFunction;
+};
+type propOptions = {
+  [key: string]: propOptionsKey;
+};
+type normalObject = {
+  [key: string]: any;
+};
+
+function warn(data: any) {
   throw new Error(data);
 }
 const hasOwnProperty = Object.prototype.hasOwnProperty;
-function hasOwn(obj, key) {
+function hasOwn(obj: object, key: string) {
   return hasOwnProperty.call(obj, key);
 }
-function isObject(obj) {
+function isObject(obj: any) {
   return obj !== null && typeof obj === 'object';
 }
 const _toString = Object.prototype.toString;
-function toRawType(value) {
+function toRawType(value: object) {
   return _toString.call(value).slice(8, -1);
 }
-function cached(fn) {
+function cached(fn: CallableFunction) {
   const cache = Object.create(null);
-  return function cachedFn(str) {
+  return function cachedFn(str: string) {
     const hit = cache[str];
     return hit || (cache[str] = fn(str));
   };
@@ -26,28 +46,36 @@ function cached(fn) {
  * Hyphenate a camelCase string.
  */
 const hyphenateRE = /\B([A-Z])/g;
-const hyphenate = cached((str) => {
+const hyphenate = cached((str: string) => {
   return str.replace(hyphenateRE, '-$1').toLowerCase();
 });
 
 /**
  * Capitalize a string.
  */
-const capitalize = cached((str) => {
+const capitalize = cached((str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 });
-function isPlainObject(obj) {
+
+function isPlainObject(obj: object) {
   return _toString.call(obj) === '[object Object]';
 }
 
-export function validate(propOptions, propsData) {
+export function validate(
+  propOptions: propOptions,
+  propsData: normalObject,
+): normalObject {
   Object.keys(propOptions).forEach((key) => {
     propsData[key] = validateProp(key, propOptions, propsData);
   });
   return propsData;
 }
 
-export function validateProp(key, propOptions, propsData) {
+export function validateProp(
+  key: string,
+  propOptions: propOptions,
+  propsData: normalObject,
+): any {
   const prop = propOptions[key];
   const absent = !hasOwn(propsData, key);
   let value = propsData[key];
@@ -80,7 +108,7 @@ export function validateProp(key, propOptions, propsData) {
 /**
  * Get the default value of a prop.
  */
-function getPropDefaultValue(prop, key) {
+function getPropDefaultValue(prop: propOptionsKey, key: string) {
   // no default, return undefined
   if (!hasOwn(prop, 'default')) {
     return undefined;
@@ -108,7 +136,12 @@ function getPropDefaultValue(prop, key) {
 /**
  * Assert whether a prop is valid.
  */
-function assertProp(prop, name, value, absent) {
+function assertProp(
+  prop: propOptionsKey,
+  name: string,
+  value: any,
+  absent: boolean,
+) {
   if (prop.required && absent) {
     warn('Missing required prop: "' + name + '"');
     return;
@@ -146,7 +179,7 @@ function assertProp(prop, name, value, absent) {
 
 const simpleCheckRE = /^(String|Number|Boolean|Function|Symbol)$/;
 
-function assertType(value, type) {
+function assertType(value: any, type: any) {
   let valid;
   const expectedType = getType(type);
   if (simpleCheckRE.test(expectedType)) {
@@ -174,16 +207,16 @@ function assertType(value, type) {
  * because a simple equality check will fail when running
  * across different vms / iframes.
  */
-function getType(fn) {
+function getType(fn: any) {
   const match = fn && fn.toString().match(/^\s*function (\w+)/);
   return match ? match[1] : '';
 }
 
-function isSameType(a, b) {
+function isSameType(a: any, b: any) {
   return getType(a) === getType(b);
 }
 
-function getTypeIndex(type, expectedTypes) {
+function getTypeIndex(type: any, expectedTypes: any) {
   if (!Array.isArray(expectedTypes)) {
     return isSameType(expectedTypes, type) ? 0 : -1;
   }
@@ -195,7 +228,11 @@ function getTypeIndex(type, expectedTypes) {
   return -1;
 }
 
-function getInvalidTypeMessage(name, value, expectedTypes) {
+function getInvalidTypeMessage(
+  name: string,
+  value: any,
+  expectedTypes: Array<any>,
+) {
   let message =
     `Invalid prop: type check failed for prop "${name}".` +
     ` Expected ${expectedTypes.map(capitalize).join(', ')}`;
@@ -219,7 +256,7 @@ function getInvalidTypeMessage(name, value, expectedTypes) {
   return message;
 }
 
-function styleValue(value, type) {
+function styleValue(value: any, type: string) {
   if (type === 'String') {
     return `"${value}"`;
   } else if (type === 'Number') {
@@ -229,11 +266,11 @@ function styleValue(value, type) {
   }
 }
 
-function isExplicable(value) {
+function isExplicable(value: string) {
   const explicitTypes = ['string', 'number', 'boolean'];
   return explicitTypes.some((elem) => value.toLowerCase() === elem);
 }
 
-function isBoolean(...args) {
+function isBoolean(...args: Array<string>) {
   return args.some((elem) => elem.toLowerCase() === 'boolean');
 }
