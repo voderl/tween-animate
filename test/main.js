@@ -61,7 +61,7 @@ setTimeout(() => {
       };
     },
     easing: Easing.Quadratic.In,
-    time: 100,
+    time: 1000,
     update(el, v) {
       // change sortable
       el.style.setProperty('transform', `translate(${v.x}px, ${v.y}px)`);
