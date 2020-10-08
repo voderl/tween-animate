@@ -14,12 +14,6 @@ function createZone() {
   return el.getContext('2d');
 }
 const inner = { value: 2 };
-setTimeout(() => {
-  setTimeout(function () {
-    console.log(2);
-  }, 2000);
-}, 200);
-console.log(1);
 function getImageData(src) {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -44,7 +38,6 @@ async function tweenImageData() {
   const btn = document.createElement('button');
   btn.innerText = '按下开始';
   document.body.appendChild(btn);
-  console.log(Transform);
   btn.addEventListener('click', () => {
     btn.disabled = true;
     Animate(toData.data, {

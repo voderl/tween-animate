@@ -14,9 +14,6 @@ import { AnimateConfig } from './define';
             }
  */
 // 生成Animate时，根据to 生成一个render， 再给予时获得最终的函数
-parseFromTo({ x: [1, 2, 3], y: 1 }, { x: [1, 2, 6], y: 3 } as any, {
-  isAssign: true,
-});
 type TweenFrom =
   | {
       [key: string]: any;
@@ -135,7 +132,6 @@ function parseFromTo(
     } else throw new ParseError(from, to);
   }
   const func = new Function('a', 'b', expression + 'return a;');
-  console.log(func);
   return function tween(status: number) {
     return func(from, status);
   };
