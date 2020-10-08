@@ -1,56 +1,61 @@
-const { Animate, update, Easing, Transform, List } = tween;
-
-function createZone(x, y, color) {
-  const el = document.createElement('div');
+const { Animate, AnimationFrame, update, Transform, Easing } = Tween;
+const WIDTH = 32;
+const HEIGHT = WIDTH;
+function createZone() {
+  const el = document.createElement('canvas');
+  el.width = WIDTH;
+  el.height = HEIGHT;
   el.style.cssText = `
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    background-color: ${color};
-    left: ${x}px;
-    top: ${y}px;
+    width: 400px;
+    height: 400px;
+    image-rendering: pixelated;
   `;
   document.body.appendChild(el);
-  return el;
+  return el.getContext('2d');
 }
-const greenBox = createZone(0, 0, '#008800');
-const redBox = createZone(400, 100, 'red');
-
-let time = performance.now();
-function ticker(timestamp) {
-  update(timestamp - time);
-  time = timestamp;
-  requestAnimationFrame(ticker);
+const inner = { value: 2 };
+setTimeout(() => {
+  setTimeout(function () {
+    console.log(2);
+  }, 2000);
+}, 200);
+console.log(1);
+function getImageData(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+      resolve(ctx);
+    };
+    img.onerror = (err) => reject(err);
+  });
 }
-requestAnimationFrame(ticker);
-
-const move = Animate({
-  from(v) {
-    return (el) => {
-      return {
-        x: parseInt(el.style.left) || 0,
-        y: parseInt(el.style.top) || 0,
-      };
-    };
-  },
-  to(v) {
-    return {
-      x: v.x,
-      y: v.y,
-    };
-  },
-  easing: Easing.Quadratic.In,
-  time: 1000,
-  update(el, v) {
-    el.style.left = `${v.x}px`;
-    el.style.top = `${v.y}px`;
-  },
-  assign: false,
-});
-const moveYoyo = move.extend(Transform.yoyo(), Transform.loop(Infinity));
-moveYoyo
-  .render({
-    x: 300,
-    y: 150,
-  })
-  .apply(greenBox, redBox);
+async function tweenImageData() {
+  const ctx = await getImageData('icons.png');
+  const fromData = ctx.getImageData(0, 32 * 3, 32, 32);
+  const toData = ctx.getImageData(0, 32 * 4, 32, 32);
+  const playStage = createZone();
+  playStage.putImageData(fromData, 0, 0);
+  const btn = document.createElement('button');
+  btn.innerText = '按下开始';
+  document.body.appendChild(btn);
+  console.log(Transform);
+  btn.addEventListener('click', () => {
+    btn.disabled = true;
+    Animate(toData.data, {
+      easing: Easing.Quadratic.In,
+    })
+      .transform('yoyo')
+      .apply(fromData.data, 1000)
+      .on('update', () => {
+        playStage.putImageData(fromData, 0, 0);
+      })
+      .on('complete', () => (btn.disabled = false));
+  });
+}
+tweenImageData();

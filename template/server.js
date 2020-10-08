@@ -15,6 +15,7 @@ app.get('/tween.js', function (req, res) {
 app.get('/main.js', function (req, res) {
   res.sendFile(path.resolve(__dirname, './main.js'));
 });
+app.use(express.static(path.resolve(__dirname, './images')));
 const server = http.createServer(app);
 
 reload(app)
