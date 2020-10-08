@@ -9,7 +9,7 @@ import babel from '@rollup/plugin-babel';
 export default {
   input: 'src/index.ts',
   output: {
-    name: 'tween',
+    name: 'Tween',
     file: pkg.main,
     format: 'umd',
     sourcemap: true,

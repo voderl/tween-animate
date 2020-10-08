@@ -4,15 +4,17 @@
   "description": "a tween animate library",
   "scripts": {
     "watch": "rollup -c --environment BUILD:development -w",
-    "tsc": "tsc -d ./src/index.ts --declarationDir ./dist -emitDeclarationOnly",
-    "build": "rollup -c --environment BUILD:production",
-    "mocha": "mocha ./test/bundle/test.bundle.js",
-    "template2": "hs -o template -p 8085 -c-1",
-    "template": "supervisor -w ./dist/tween.umd.js ./template/server.js"
+    "tsc": "tsc --declaration --emitDeclarationOnly --esModuleInterop --outFile dist/index.d.ts && node scripts/adjust-d.ts.js",
+    "build": "rollup -c --environment BUILD:production && npm run tsc",
+    "template": "supervisor -w ./dist/tween.umd.js,./template/ ./template/server.js"
   },
   "keywords": [
     "tween",
     "aniamte"
+  ],
+  "files": [
+    "dist",
+    "README.md"
   ],
   "main": "./dist/tween.umd.js",
   "author": "voderl",
