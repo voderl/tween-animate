@@ -10,7 +10,7 @@ const animate = Animate({
   y: (v) => v + 100,
 }, {
   isAssign: false,
-}).on('update', e => console.log(e));
+}).transform('yoyo').on('update', e => console.log(e));
 
 animate.apply({
   x: 0,
@@ -22,7 +22,8 @@ animate.apply({
 
 ### 效率更高，性能更好的补间动画
 
-Codepen 示例更新中...
+https://voderl.github.io/tween-animate/performance/
+32*32的图片的imageData，使用tween变换，即每帧有4096个值参与变换，具体性能可控制台performance页面测试。
 
 在给定from 和to时，会自动生成用于update的函数，提高效率，性能。
 ```js
@@ -51,8 +52,6 @@ var a_x=a["x"];a_x["2"]=3+b*3;a["y"]=1+b*2;return a;
 
 1. 在只给定 from 时也编译出 `(to: any) => renderFunction` 结构, 进一步提高效率
 2. tween 到一个变化的对象，即传入配置`isRefresh`, 每帧执行，需要刷新时全局刷新。有此配置的，不预先生成更新函数
-3. 动画的串联并联
-4. 在isAssign为false时，把from的其他值也复制过来。
 
 ## install
 

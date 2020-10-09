@@ -13,7 +13,7 @@ function createZone() {
   document.body.appendChild(el);
   return el.getContext('2d');
 }
-const inner = { value: 2 };
+
 function getImageData(src) {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -45,6 +45,7 @@ async function tweenImageData() {
     })
       .transform('yoyo')
       .apply(fromData.data, 1000)
+      .transform('loop', 2)
       .on('update', () => {
         playStage.putImageData(fromData, 0, 0);
       })
