@@ -73,8 +73,12 @@ class AnimateWrapper extends EventEmitter {
   }
 
   apply(el, time) {
-    const ins = new WrapperInstance(this.animate.apply(el, time));
+    const child = this.animate.apply(el, time);
+    const ins = new WrapperInstance(child);
     cloneEventEmitter(this, ins);
+    child._trigger = () => {
+      ins._trigger();
+    };
     return ins;
   }
 
