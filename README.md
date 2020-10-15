@@ -1,29 +1,62 @@
 # tween-animate
-
-## 目标
-
-### 使用
+#### 示例
+[Codepen示例](https://codepen.io/voderl/pen/PozZBXj)
 ```js
-import { Animate } from 'Tween';
+import { Animate, Easing } from 'Tween';
 const animate = Animate({
   x: 100,
   y: (v) => v + 100,
 }, {
+  easing:Easing.Quadratic.In,
   isAssign: false,
 }).transform('yoyo').on('update', e => console.log(e));
 
 animate.apply({
   x: 0,
   y: 0
-}, 1000);
+}, 2000);
 
 // tween to {x: 100, y: 100}
 ```
+#### Animate 
+```js
+const animate = Animate(to, options)
+// Animate extends EventEmitter
+// @to - 变换到的结构，如果有值为函数则为： (oldValue: number):number => newValue;
+type options = {
+  easing: (number) => number, 
+  isAssign: boolean, // 是否直接应用到from对象
+}
+```
+#### AnimateInstance
+```js
+const animateInstance = animate.apply(from, time: number);
+// AnimateInstance extends EventEmitter
+```
+
+#### EventEmitter 
+```js
+animate.on('update', (e) => void console.log(e));
+animateInstance.on('update', (e) => void console.log(e));
+```
+- start
+- update
+- complete 
+
+#### transform
+```js
+animate.transform('yoyo').transform('loop',2);
+animate.transform('loop', 2).transfrom('yoyo');
+// 上述两种写法实际动画是不同的
+```
+- yoyo
+- loop
+- reverse
 
 ### 效率更高，性能更好的补间动画
 
-https://voderl.github.io/tween-animate/performance/
-32*32的图片的imageData，使用tween变换，即每帧有4096个值参与变换，具体性能可控制台performance页面测试。
+https://voderl.github.io/tween-animate/performance/  
+32*32的图片的imageData，分别使用[tween-animate](https://github.com/voderl/tween-animate)和[tween.js](https://github.com/tweenjs/tween.js)变换，(4096个值的数组)，具体性能可控制台performance页面测试。
 
 在给定from 和to时，会自动生成用于update的函数，提高效率，性能。
 ```js
@@ -46,7 +79,12 @@ var a_x=a["x"];a_x["2"]=3+b*3;a["y"]=1+b*2;return a;
 }
 ```
 ### get start
-
+```html
+<script src="https://unpkg.com/tween-animate"></script>
+```
+```shell
+yarn add tween-animate
+```
 
 ### todo
 
@@ -65,6 +103,7 @@ npm install
 npm run watch
 npm run template
 ```
+then open http://localhost:3000/
 
 ## build
 
