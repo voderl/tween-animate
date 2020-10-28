@@ -6,7 +6,7 @@
 var fs = require('fs');
 var path = require('path');
 
-var file = path.join(__dirname, '../dist/index.d.ts');
+var file = path.join(__dirname, '../dist/tween.d.ts');
 
 let content = fs.readFileSync(file) + '';
 
