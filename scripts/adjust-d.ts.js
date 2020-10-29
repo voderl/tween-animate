@@ -21,14 +21,10 @@ content = content
   .replace(/}\n(\s*)([^\s])/g, '}\n\n$1$2')
   .replace(/\n\n(\s*\n)+/g, '\n\n');
 
-content = `declare module "Tween" {
+content = `declare module "tween-animate" {
+    import EventEmitter from 'eventemitter3';
 ${content}
-    export default Tween;
-}
-
-declare module "tween-animate" {
-    import Tween from "Tween";
-    export = Tween;
+    export = _default;
 }
 `;
 

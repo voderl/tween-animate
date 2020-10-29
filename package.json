@@ -34,10 +34,11 @@
     "rollup-plugin-terser": "^6.1.0",
     "tslib": "^2.0.0",
     "typescript": "^3.9.5",
-    "eventemitter3": "^4.0.4",
     "express": "^4.17.1",
     "node-supervisor": "^1.0.2",
     "reload": "^3.1.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "eventemitter3": "^4.0.4"
+  }
 }
