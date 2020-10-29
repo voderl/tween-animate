@@ -1,4 +1,5 @@
-declare module "Tween" {
+declare module "tween-animate" {
+    import EventEmitter from 'eventemitter3';
 
     type EasingFunction = (amount: number) => number;
 
@@ -274,10 +275,5 @@ declare module "Tween" {
         };
     };
 
-    export default Tween;
-}
-
-declare module "tween-animate" {
-    import Tween from "Tween";
-    export = Tween;
+    export = _default;
 }
