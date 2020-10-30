@@ -92,9 +92,15 @@ class AnimateWrapper extends EventEmitter {
     return animate;
   }
 }
-function Animate(to, config?: AnimateConfig) {
-  return new AnimateClass(to, config);
+interface Animate {
+  (to, config?: AnimateConfig): AnimateClass;
+  config: (config: AnimateConfig) => void;
+  play: () => void;
+  stop: () => void;
 }
+const Animate = <Animate>function (to, config?: AnimateConfig) {
+  return new AnimateClass(to, config);
+};
 Animate.config = function (config: AnimateConfig) {
   Object.assign(defaultAnimateConfig, config);
 };

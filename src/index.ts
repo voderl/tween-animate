@@ -6,8 +6,11 @@ import { update, List } from './update';
 import Easing from './utils/Easing';
 import Transform from './Transform';
 
-AnimationFrame(function ticker(elpased) {
+const ticker = AnimationFrame(function ticker(elpased) {
   update(elpased);
-}).play();
+});
+ticker.play();
+Animate.play = ticker.play;
+Animate.stop = ticker.stop;
 
-export default { Animate, AnimationFrame, update, Transform, Easing };
+export default { Animate, update, Transform, Easing };
