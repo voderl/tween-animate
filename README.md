@@ -53,6 +53,7 @@ animate.transform('loop', 2).transfrom('yoyo');
 - loop
 - reverse
 
+
 ### 效率更高，性能更好的补间动画
 
 https://voderl.github.io/tween-animate/performance/  
@@ -103,10 +104,35 @@ npm install
 npm run watch
 npm run template
 ```
-then open http://localhost:3000/
+open http://localhost:3000/
 
 ## build
 
 ```
 npm run build
+```
+### todo
+
+```js
+const useCircle = Animate((t) => {
+  const angle = tween(0, 2*PI, t);
+  return {
+    x: cos(angel),
+    y: sin(angle),
+  }
+}, {
+  easing,
+});
+const update = Animate(function update(obj) {
+  obj.key = obj.key2 = tween(0, 1, 300).then(() => {
+    status.end();
+  });
+  Object.assgin(obj, useCircle(1000));
+  tween(obj.obj.key).to({x: 2, y: 4}, 600);// obj.obj.key = tween(initValue, {x: 2, y: 4}, 600);
+  tween(obj.key3).to((v) => v + 100, 300).reverse();
+  obj.key7 = tween(obj.value, 3, 300);// obj.key = 
+  // 正则匹配tween() 编译一次，(不然每次都会生成字面对象吗？像react一样，编译器会优化掉吗，每帧执行是否压力过大？)
+  // apply， 获取obj时再编译一次，初始化，得到更新函数。    tween =>  
+})
+
 ```
