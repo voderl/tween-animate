@@ -200,10 +200,14 @@ declare module "tween-animate" {
         transform(id: any, ...args: any[]): AnimateWrapper;
     }
 
-    function Animate(to: any, config?: AnimateConfig): AnimateClass;
-    namespace Animate {
-        var config: (config: AnimateConfig) => void;
+    interface Animate {
+        (to: any, config?: AnimateConfig): AnimateClass;
+        config: (config: AnimateConfig) => void;
+        play: () => void;
+        stop: () => void;
     }
+
+    const Animate: Animate;
 
     function AnimationFrame(update: (delta: number) => void): {
         play(): void;
@@ -211,8 +215,7 @@ declare module "tween-animate" {
     };
 
     const _default: {
-        Animate: typeof Animate;
-        AnimationFrame: typeof AnimationFrame;
+        Animate: Animate;
         update: typeof update;
         Transform: {
             $register(id: string, func: (on: (id: string, func: (ins: any) => void) => void, ...args: any) => void): void;
