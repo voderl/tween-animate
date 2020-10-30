@@ -1,6 +1,6 @@
 {
   "name": "tween-animate",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "a tween animate library",
   "scripts": {
     "watch": "rollup -c --environment BUILD:development -w",
