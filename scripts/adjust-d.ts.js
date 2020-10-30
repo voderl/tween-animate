@@ -13,6 +13,7 @@ let content = fs.readFileSync(file) + '';
 content = content
   .replace(/\r\n/g, '\n')
   .replace(/\s*export default [^;{]+;/g, '')
+  .replace(/export {.*};/gs, '')
   .replace(/export (default )?/g, '')
   .replace(/(}\n)?declare module [^{]+{/g, '')
   .replace(/import [^;]+;/g, '')
