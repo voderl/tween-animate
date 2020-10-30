@@ -277,6 +277,7 @@ declare module "tween-animate" {
             };
         };
     };
+    
 
     export = Tween;
 }
