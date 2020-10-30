@@ -24,7 +24,7 @@ content = content
 content = `declare module "tween-animate" {
     import EventEmitter from 'eventemitter3';
 ${content}
-    export = _default;
+    export = Tween;
 }
 `;
 

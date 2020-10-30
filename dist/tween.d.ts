@@ -214,7 +214,7 @@ declare module "tween-animate" {
         stop(): void;
     };
 
-    const _default: {
+    const Tween: {
         Animate: Animate;
         update: typeof update;
         Transform: {
@@ -278,5 +278,5 @@ declare module "tween-animate" {
         };
     };
 
-    export = _default;
+    export = Tween;
 }

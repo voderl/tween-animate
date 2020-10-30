@@ -13,4 +13,10 @@ ticker.play();
 Animate.play = ticker.play;
 Animate.stop = ticker.stop;
 
-export default { Animate, update, Transform, Easing };
+const Tween = {
+  Animate,
+  update,
+  Transform,
+  Easing,
+};
+export default Tween;
