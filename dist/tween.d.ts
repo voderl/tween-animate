@@ -214,70 +214,11 @@ declare module "tween-animate" {
         stop(): void;
     };
 
-    const Tween: {
-        Animate: Animate;
-        update: typeof update;
-        Transform: {
-            $register(id: string, func: (on: (id: string, func: (ins: any) => void) => void, ...args: any) => void): void;
-            $apply(id: string, ins: import("eventemitter3")<string | symbol, any>, ...args: any[]): void;
-        };
-        Easing: {
-            Linear: {
-                None: (amount: number) => number;
-            };
-            Quadratic: {
-                In: (amount: number) => number;
-                Out: (amount: number) => number;
-                InOut: (amount: number) => number;
-            };
-            Cubic: {
-                In: (amount: number) => number;
-                Out: (amount: number) => number;
-                InOut: (amount: number) => number;
-            };
-            Quartic: {
-                In: (amount: number) => number;
-                Out: (amount: number) => number;
-                InOut: (amount: number) => number;
-            };
-            Quintic: {
-                In: (amount: number) => number;
-                Out: (amount: number) => number;
-                InOut: (amount: number) => number;
-            };
-            Sinusoidal: {
-                In: (amount: number) => number;
-                Out: (amount: number) => number;
-                InOut: (amount: number) => number;
-            };
-            Exponential: {
-                In: (amount: number) => number;
-                Out: (amount: number) => number;
-                InOut: (amount: number) => number;
-            };
-            Circular: {
-                In: (amount: number) => number;
-                Out: (amount: number) => number;
-                InOut: (amount: number) => number;
-            };
-            Elastic: {
-                In: (amount: number) => number;
-                Out: (amount: number) => number;
-                InOut: (amount: number) => number;
-            };
-            Back: {
-                In: (amount: number) => number;
-                Out: (amount: number) => number;
-                InOut: (amount: number) => number;
-            };
-            Bounce: {
-                In: (amount: number) => number;
-                Out: (amount: number) => number;
-                InOut: (amount: number) => number;
-            };
-        };
-    };
-    
 
-    export = Tween;
+    export {
+      Easing,
+      Animate,
+      Transform,
+      update
+    };
 }
