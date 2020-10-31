@@ -20,4 +20,3 @@ const Tween = {
   Easing,
 };
 export { Animate, update, Transform, Easing };
-export default Tween;

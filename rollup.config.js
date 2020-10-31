@@ -4,7 +4,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
 //terser API : https://github.com/terser/terser#compress-options
-import babel from '@rollup/plugin-babel';
+import { getBabelOutputPlugin } from '@rollup/plugin-babel';
 
 export default {
   input: 'src/index.ts',
@@ -12,7 +12,10 @@ export default {
     {
       name: 'Tween',
       file: pkg.main,
-      format: 'umd',
+      format: 'esm',
+      plugins: [
+        getBabelOutputPlugin({ presets: [['@babel/env', { modules: 'umd' }]] }),
+      ].concat(process.env.BUILD === 'production' ? [terser()] : []),
     },
     {
       name: 'Tween',
@@ -20,9 +23,5 @@ export default {
       format: 'es',
     },
   ],
-  plugins: [resolve(), commonjs(), typescript()].concat(
-    process.env.BUILD === 'production'
-      ? [babel({ babelHelpers: 'bundled' }), terser()]
-      : [],
-  ),
+  plugins: [resolve(), commonjs(), typescript()],
 };
