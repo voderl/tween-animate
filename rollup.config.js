@@ -11,16 +11,19 @@ export default {
   output: [
     {
       name: 'Tween',
-      file: pkg.main,
-      format: 'esm',
       plugins: [
-        getBabelOutputPlugin({ presets: [['@babel/env', { modules: 'umd' }]] }),
-      ].concat(process.env.BUILD === 'production' ? [terser()] : []),
+        getBabelOutputPlugin({
+          presets: ['@babel/preset-env'],
+          allowAllFormats: true,
+        }),
+      ].concat(process.env.BUILD === 'production' ? [] : []),
+      file: pkg.main,
+      format: 'umd',
     },
     {
       name: 'Tween',
       file: pkg.module,
-      format: 'es',
+      format: 'esm',
     },
   ],
   plugins: [resolve(), commonjs(), typescript()],
