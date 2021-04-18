@@ -1,14 +1,19 @@
 {
   "compilerOptions": {
     "noImplicitAny": false,
-    "module": "es2020",
-    "target": "es5",
+    "module": "esnext",
+    "target": "esnext",
     "moduleResolution": "node",
     "importHelpers": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "allowJs": false,
-    "sourceMap": true
+    "declaration": false,
+    "sourceMap": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"]
+    }
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]

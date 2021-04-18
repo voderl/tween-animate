@@ -1,22 +1,28 @@
 import './polyfill';
-import AnimationFrame from './utils/AnimationFrame';
-import './parse';
-import Animate from './Animate';
-import { update, List } from './update';
-import Easing from './utils/Easing';
-import Transform from './Transform';
+import AnimateFunction from './Animate';
+import { animationFrame, updateElapsed, GLOBAL_LIST, update } from './update';
+import { register } from './transform';
+import Easing from './Easing';
 
-const ticker = AnimationFrame(function ticker(elpased) {
-  update(elpased);
-});
-ticker.play();
-Animate.play = ticker.play;
-Animate.stop = ticker.stop;
+type AnimateFunctionType = typeof AnimateFunction;
+interface Animate extends AnimateFunctionType {
+  play: typeof animationFrame.play;
+  stop: typeof animationFrame.stop;
+  registerTransform: typeof register;
+  Easing: typeof Easing;
+  update: typeof update;
+  list: typeof GLOBAL_LIST;
+  updateElpased: typeof updateElapsed;
+}
 
-const Tween = {
-  Animate,
-  update,
-  Transform,
-  Easing,
-};
-export { Animate, update, Transform, Easing };
+const Animate = AnimateFunction as Animate;
+
+Animate.play = animationFrame.play;
+Animate.stop = animationFrame.stop;
+Animate.registerTransform = register;
+Animate.Easing = Easing;
+Animate.update = update;
+Animate.list = GLOBAL_LIST;
+Animate.updateElpased = updateElapsed;
+
+export default Animate;

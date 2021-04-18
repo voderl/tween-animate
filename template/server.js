@@ -9,8 +9,8 @@ app.set('port', 3000);
 app.get('/', function (req, res) {
   res.sendFile(path.resolve(__dirname, './index.html'));
 });
-app.get('/tween.js', function (req, res) {
-  res.sendFile(path.resolve(__dirname, '../dist/tween.umd.js'));
+app.get('/tween-animate.js', function (req, res) {
+  res.sendFile(path.resolve(__dirname, '../dist/tween-animate.umd.js'));
 });
 app.get('/main.js', function (req, res) {
   res.sendFile(path.resolve(__dirname, './main.js'));

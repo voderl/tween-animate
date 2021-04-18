@@ -1,42 +1,53 @@
 {
   "name": "tween-animate",
-  "version": "2.0.9",
-  "description": "a tween animate library",
+  "version": "3.0.0",
+  "description": "a faster tween animate library",
   "scripts": {
+    "postinstall": "husky install",
     "watch": "rollup -c --environment BUILD:development -w",
-    "tsc": "tsc --declaration --emitDeclarationOnly --esModuleInterop --outFile dist/tween.d.ts && node scripts/adjust-d.ts.js",
-    "build": "rollup -c --environment BUILD:production && npm run tsc",
-    "template": "supervisor -w ./dist/tween.umd.js,./template/ ./template/server.js"
+    "build": "rollup -c --environment BUILD:production",
+    "template": "supervisor -w ./dist/tween-animate.umd.js,./template/ ./template/server.js",
+    "test": "cross-env TS_NODE_COMPILER_OPTIONS={\\\"module\\\":\\\"commonjs\\\"} mocha --require ts-node/register 'src/**/*.spec.ts'"
   },
   "keywords": [
     "tween",
-    "aniamte"
+    "aniamte",
+    "performance"
   ],
   "files": [
     "dist",
     "README.md"
   ],
-  "main": "./dist/tween.umd.js",
-  "module": "./dist/tween.es.js",
-  "types": "./dist/tween.d.ts",
+  "_moduleAliases": {
+    "@": "src"
+  },
+  "main": "./dist/tween-animate.umd.js",
+  "module": "./dist/tween-animate.es.js",
+  "types": "./dist/tween-animate.d.ts",
   "author": "voderl",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.10.3",
-    "@babel/preset-env": "^7.10.3",
-    "@rollup/plugin-babel": "^5.0.4",
     "@rollup/plugin-commonjs": "^13.0.0",
     "@rollup/plugin-node-resolve": "^8.1.0",
-    "@rollup/plugin-typescript": "^5.0.0",
+    "@types/chai": "^4.2.16",
+    "@types/lodash": "^4.14.168",
+    "@types/mocha": "^8.2.2",
     "chai": "^4.2.0",
-    "mocha": "^7.2.0",
-    "rollup": "^2.18.1",
-    "rollup-plugin-terser": "^6.1.0",
-    "tslib": "^2.0.0",
-    "typescript": "^3.9.5",
+    "cross-env": "^7.0.3",
     "express": "^4.17.1",
+    "husky": "^6.0.0",
+    "lodash": "^4.17.21",
+    "mocha": "^7.2.0",
+    "module-alias": "^2.2.2",
     "node-supervisor": "^1.0.2",
-    "reload": "^3.1.0"
+    "reload": "^3.1.0",
+    "rollup": "^2.18.1",
+    "rollup-plugin-dts": "^3.0.1",
+    "rollup-plugin-terser": "^6.1.0",
+    "rollup-plugin-typescript2": "^0.30.0",
+    "ts-node": "^9.1.1",
+    "tslib": "^2.2.0",
+    "typescript": "^4.0.3"
   },
   "dependencies": {
     "eventemitter3": "^4.0.4"

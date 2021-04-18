@@ -1,24 +1,45 @@
 import pkg from './package.json';
-import typescript from '@rollup/plugin-typescript';
+import typescript from 'rollup-plugin-typescript2';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
-//terser API : https://github.com/terser/terser#compress-options
+import dts from 'rollup-plugin-dts';
 
-export default {
-  input: 'src/index.ts',
-  output: [
-    {
-      name: 'Tween',
-      plugins: [].concat(process.env.BUILD === 'production' ? [terser()] : []),
-      file: pkg.main,
-      format: 'umd',
-    },
-    {
-      name: 'Tween',
+export default [
+  {
+    input: 'src/index.ts',
+    output: {
+      name: 'Animate',
       file: pkg.module,
       format: 'esm',
+      sourcemap: true,
     },
-  ],
-  plugins: [resolve(), commonjs(), typescript()],
-};
+    plugins: [typescript(), resolve(), commonjs()],
+  },
+  {
+    input: 'src/index.ts',
+    output: {
+      name: 'Animate',
+      plugins: process.env.BUILD === 'production' ? [terser()] : [],
+      file: pkg.main,
+      format: 'umd',
+      sourcemap: true,
+    },
+    plugins: [
+      typescript(
+        process.env.BUILD === 'production'
+          ? {
+              tsconfigOverride: { compilerOptions: { target: 'es5' } },
+            }
+          : {},
+      ),
+      resolve(),
+      commonjs(),
+    ],
+  },
+  {
+    input: 'src/index.ts',
+    output: [{ file: 'dist/tween-animate.d.ts', format: 'es' }],
+    plugins: [dts()],
+  },
+];
