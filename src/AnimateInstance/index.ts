@@ -14,8 +14,8 @@ function createTweenFunction(
 ) {
   if (from.length === 1) {
     const easing = config.easing;
-    const _from = from[0];
-    return (status: number) => parse(_from, to, config)(easing(status));
+    const parsed = parse(from[0], to, config);
+    return (status: number) => parsed(easing(status));
   }
   const list = from.map((fromItem) => parse(fromItem, to, config));
   const easing = config.easing;

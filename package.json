@@ -1,6 +1,6 @@
 {
   "name": "tween-animate",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "a faster tween animate library",
   "scripts": {
     "postinstall": "husky install",
