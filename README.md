@@ -311,7 +311,7 @@ when "from" and "to" value have different structure, console will receive friend
 
 ## get start
 ```html
-<script src="https://unpkg.com/tween-animate@2.0.9/dist/tween.umd.js"></script>
+<script src="https://unpkg.com/tween-animate@3.0.1/dist/tween.umd.js"></script>
 ```
 ```shell
 yarn add tween-animate
