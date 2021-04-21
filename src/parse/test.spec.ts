@@ -82,6 +82,42 @@ const examples = {
       };
     },
   },
+  function: {
+    to: function (from) {
+      return {
+        x: from.x + 100,
+        y: from.y + 100,
+      };
+    },
+    from: {
+      x: 0,
+      y: 0,
+    },
+    test(v) {
+      return {
+        x: 100 * v,
+        y: 100 * v,
+      };
+    },
+  },
+  'nested function': {
+    to: function (from) {
+      return {
+        x: (fromX) => fromX + 100,
+        y: from.y + 100,
+      };
+    },
+    from: {
+      x: 0,
+      y: 0,
+    },
+    test(v) {
+      return {
+        x: 100 * v,
+        y: 100 * v,
+      };
+    },
+  },
 };
 describe('parse from and to', () => {
   Object.keys(examples).forEach((key) => {
