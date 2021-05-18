@@ -242,4 +242,43 @@ describe('tween', function () {
       done();
     });
   });
+
+  it('"options" parser', (done) => {
+    const a = Animate(
+      (from: any) => {
+        return {
+          x: from.x + 100,
+          y: from.y + 100,
+        };
+      },
+      {
+        time: 1000,
+        parser: {
+          parse(el) {
+            return {
+              x: parseInt(el.x),
+              y: parseInt(el.y),
+            };
+          },
+          apply(el, v: any) {
+            el.x = v.x + 'px';
+            el.y = v.y + 'px';
+          },
+        },
+      },
+    );
+    const el = {
+      x: '1px',
+      y: '0px',
+    };
+    a.apply(el);
+    setTimeout(() => {
+      Animate.updateElpased(1000);
+      assert.deepEqual(el, {
+        x: '101px',
+        y: '100px',
+      });
+      done();
+    });
+  });
 });

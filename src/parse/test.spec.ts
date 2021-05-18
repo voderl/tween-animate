@@ -118,6 +118,61 @@ const examples = {
       };
     },
   },
+  'nested-object-3': {
+    from: {
+      a: [
+        {
+          b: [
+            [
+              [
+                [
+                  {
+                    c: 1,
+                  },
+                ],
+              ],
+            ],
+          ],
+        },
+      ],
+    },
+    to: {
+      a: [
+        {
+          b: [
+            [
+              [
+                [
+                  {
+                    c: 10,
+                  },
+                ],
+              ],
+            ],
+          ],
+        },
+      ],
+    },
+    test(v) {
+      return {
+        a: [
+          {
+            b: [
+              [
+                [
+                  [
+                    {
+                      c: 1 + 9 * v,
+                    },
+                  ],
+                ],
+              ],
+            ],
+          },
+        ],
+      };
+    },
+  },
 };
 describe('parse from and to', () => {
   Object.keys(examples).forEach((key) => {
@@ -154,5 +209,25 @@ describe('parse from and to', () => {
         });
       });
     });
+  });
+
+  it('parse function "to" arguments', () => {
+    const options = {
+      isAssign: false,
+    };
+    const a = parse(
+      {
+        x: 0,
+        y: 1,
+      },
+      function (from: any, config) {
+        assert.equal(config, options);
+        return {
+          x: from.x + 100,
+          y: from.y + 100,
+        };
+      },
+      options,
+    );
   });
 });
