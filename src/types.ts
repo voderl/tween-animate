@@ -14,13 +14,17 @@ export type TweenTo =
       [key: string]: TweenTo;
     }
   | TweenTo[]
-  | ((v: TweenValue) => TweenValue);
+  | ((from: TweenValue, config: AnimateOptions) => TweenValue);
 
 export type AnimateOptions = {
   time: number;
   easing: (v: number) => number;
   isAssign: boolean;
   list: any[];
+  parser?: {
+    parse: (v: any) => TweenValue;
+    apply: (el: any, v: TweenValue) => void;
+  };
 };
 
 export interface AnimateValue extends EventEmitter {

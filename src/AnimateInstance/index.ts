@@ -2,23 +2,41 @@ import EventEmitter from 'eventemitter3';
 import { AnimateValue, AnimateOptions, TweenTo } from '../types';
 import parse from '../parse';
 import { transform } from '../transform';
-import { EasingFunction } from '@/Easing';
 
 function createTweenFunction(
   from: any[],
   to: TweenTo,
-  config: {
-    isAssign: boolean;
-    easing: EasingFunction;
-  },
+  options: AnimateOptions,
 ) {
-  if (from.length === 1) {
-    const easing = config.easing;
-    const parsed = parse(from[0], to, config);
-    return (status: number) => parsed(easing(status));
+  let middleware;
+  if (options.parser) {
+    const parser = options.parser;
+    if ('parse' in parser && 'apply' in parser) {
+      middleware = (item) => {
+        const parsed = parse(parser.parse(item), to, options);
+        const easing = options.easing;
+        return (status) => {
+          let v = parsed(easing(status));
+          parser.apply(item, v);
+          return v;
+        };
+      };
+    } else
+      throw new Error(
+        `options "parser" should both have "parse" and "apply" methods`,
+      );
+  } else {
+    middleware = (item) => {
+      const parsed = parse(item, to, options);
+      const easing = options.easing;
+      return (status) => parsed(easing(status));
+    };
   }
-  const list = from.map((fromItem) => parse(fromItem, to, config));
-  const easing = config.easing;
+  if (from.length === 1) {
+    return middleware(from[0]);
+  }
+  const list = from.map((item) => middleware(item));
+  const easing = options.easing;
   return function tween(status: number) {
     const n = easing(status);
     return list.map((t) => t(n));
@@ -63,10 +81,7 @@ class AnimateInstance extends EventEmitter {
       throw new Error('please give "time" option before apply');
     this.fullTime = options.time;
 
-    this.tween = createTweenFunction(from, to, {
-      isAssign: options.isAssign,
-      easing: options.easing,
-    });
+    this.tween = createTweenFunction(from, to, options);
 
     const emit = this.emit;
     this.emit = function (key: string, a) {
