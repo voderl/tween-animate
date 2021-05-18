@@ -81,7 +81,7 @@ const instance = Animate(from, to, options);
   ```
 * `function`
    ```js
-  Animate((from) => ({
+  Animate((from, options) => ({
     x: from.x + 100,
     y: from.y + 100,
   }), 1000).apply({
@@ -144,6 +144,32 @@ const instance = Animate(from, to, options);
     }).apply(0);
     Animate.update(); // don't work;
     Animate.update(customList); // work
+    ```
+  * parser - (optional) must contain parse and apply methods;
+    ```js
+    const el = document.createElement('div');
+    el.style.width = el.style.height = '100px';
+    el.style.background = 'black';
+    el.style.position = 'absolute';
+    document.body.append(el);
+    Animate({
+      x: 100,
+      y: 100,
+    }, {
+        time: 1000,
+        parser: {
+          parse(from) {
+            return {
+              x: parseInt(from.style.left || 0),
+              y: parseInt(from.style.top || 0),
+            }
+          },
+          apply(el, v) {
+            el.style.left = v.x + 'px';
+            el.style.top = v.y + 'px';
+          },
+        }
+    }).apply(el);
     ```
 ### property
 * play - `function`
