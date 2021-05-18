@@ -325,11 +325,11 @@ parseFromTo(
  * @param b - status - range 0 - 1
  */
 function anonymous(a,b) {
-  var a={};var a_x=a["x"]=[];a_x["2"]=3+b*3;a["y"]=1+b*2;return a;
+  var a={};var a0=a["x"]=[];a0["2"]=3+b*3;a["y"]=1+b*2;return a;
 }
 // when options "isAssign" is `true` (default);
 function anonymous(a,b) {
-var a_x=a["x"];a_x["2"]=3+b*3;a["y"]=1+b*2;return a;
+  var a0=a["x"];a0["2"]=3+b*3;a["y"]=1+b*2;return a;
 }
 ```
 
@@ -337,7 +337,7 @@ when "from" and "to" value have different structure, console will receive friend
 
 ## get start
 ```html
-<script src="https://unpkg.com/tween-animate@3.0.1/dist/tween.umd.js"></script>
+<script src="https://unpkg.com/tween-animate@3.1.0/dist/tween.umd.js"></script>
 ```
 ```shell
 yarn add tween-animate
