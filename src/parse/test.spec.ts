@@ -230,4 +230,22 @@ describe('parse from and to', () => {
       options,
     );
   });
+
+  it('parse error when meet NaN', () => {
+    assert.throw(() => {
+      parse(
+        {
+          x: NaN,
+          y: NaN,
+        },
+        {
+          x: 100,
+          y: 100,
+        },
+        {
+          isAssign: true,
+        },
+      );
+    });
+  });
 });

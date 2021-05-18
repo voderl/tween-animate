@@ -20,7 +20,14 @@ import { TweenValue, TweenTo, AnimateOptions } from 'types';
 function stringfy(obj: TweenValue) {
   return JSON.stringify(
     obj,
-    (key, value) => (typeof value === 'function' ? value.toString() : value),
+    (key, value) => {
+      if (typeof value === 'function') return value.toString();
+      if (typeof value === 'number') {
+        if (isPlainNumber(value)) return value;
+        return (value as any).toString();
+      }
+      return value;
+    },
     '\t',
   );
 }
@@ -55,6 +62,11 @@ type Status = {
   config: AnimateOptions;
 };
 
+function isPlainNumber(v: any): v is number {
+  // test is number and not is NaN
+  return typeof v === 'number' && v === v;
+}
+
 function parse(
   from: any,
   _to: TweenTo,
@@ -76,7 +88,7 @@ function parse(
       expression =
         (isAssign ? '' : `var a=${getEmptyType(from)};`) +
         baseParseFromTo(from, to, 'a', isAssign, status);
-    } else if (typeof to === 'number' && typeof from === 'number') {
+    } else if (isPlainNumber(to) && isPlainNumber(from)) {
       expression = `a=${from}+b*${to - from};`;
     } else throw new ParseError(from, to);
   }
@@ -112,7 +124,7 @@ function baseParseFromTo(
           isAssign,
           status,
         )}`;
-      } else if (typeof toValue === 'number' && typeof fromValue === 'number') {
+      } else if (isPlainNumber(toValue) && isPlainNumber(fromValue)) {
         expression += `${expressionKey}["${key}"]=${fromValue}+b*${
           toValue - fromValue
         };`;
