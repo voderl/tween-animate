@@ -1,10 +1,9 @@
 {
   "name": "tween-animate",
-  "version": "3.1.0",
+  "version": "3.1.4",
   "description": "a faster tween animate library",
   "homepage": "https://github.com/voderl/tween-animate",
   "scripts": {
-    "postinstall": "husky install",
     "watch": "rollup -c --environment BUILD:development -w",
     "build": "rollup -c --environment BUILD:production",
     "template": "supervisor -w ./dist/tween-animate.umd.js,./template/ ./template/server.js",

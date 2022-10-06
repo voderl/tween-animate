@@ -3,8 +3,14 @@ import AnimateFunction from './Animate';
 import { animationFrame, updateElapsed, GLOBAL_LIST, update } from './update';
 import { register } from './transform';
 import Easing from './Easing';
+import AnimateInstance from './AnimateInstance';
 
-type AnimateFunctionType = typeof AnimateFunction;
+export type AnimateInstanceType = AnimateInstance;
+
+export type AnimateFunctionType = typeof AnimateFunction;
+
+export * from './types';
+
 interface Animate extends AnimateFunctionType {
   play: typeof animationFrame.play;
   stop: typeof animationFrame.stop;

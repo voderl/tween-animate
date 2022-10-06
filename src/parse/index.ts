@@ -75,7 +75,7 @@ function parse(
   },
 ) {
   const { isAssign = true } = config || {};
-  let expression;
+  let expression = '';
   const status: Status = {
     config: config as AnimateOptions,
     count: 0,
