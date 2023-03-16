@@ -9,9 +9,7 @@ export type AnimateInstanceType = AnimateInstance;
 
 export type AnimateFunctionType = typeof AnimateFunction;
 
-export * from './types';
-
-interface Animate extends AnimateFunctionType {
+interface AnimateType extends AnimateFunctionType {
   play: typeof animationFrame.play;
   stop: typeof animationFrame.stop;
   registerTransform: typeof register;
@@ -21,7 +19,7 @@ interface Animate extends AnimateFunctionType {
   updateElpased: typeof updateElapsed;
 }
 
-const Animate = AnimateFunction as Animate;
+const Animate = AnimateFunction as AnimateType;
 
 Animate.play = animationFrame.play;
 Animate.stop = animationFrame.stop;
@@ -31,4 +29,4 @@ Animate.update = update;
 Animate.list = GLOBAL_LIST;
 Animate.updateElpased = updateElapsed;
 
-export default Animate;
+export default Animate as AnimateType;

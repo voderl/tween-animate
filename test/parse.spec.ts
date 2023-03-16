@@ -1,4 +1,4 @@
-import parse from './';
+import parse from '../src/parse';
 import { assert } from 'chai';
 import cloneDeep from 'lodash/cloneDeep';
 
@@ -82,42 +82,6 @@ const examples = {
       };
     },
   },
-  function: {
-    to: function (from) {
-      return {
-        x: from.x + 100,
-        y: from.y + 100,
-      };
-    },
-    from: {
-      x: 0,
-      y: 0,
-    },
-    test(v) {
-      return {
-        x: 100 * v,
-        y: 100 * v,
-      };
-    },
-  },
-  'nested function': {
-    to: function (from) {
-      return {
-        x: (fromX) => fromX + 100,
-        y: from.y + 100,
-      };
-    },
-    from: {
-      x: 0,
-      y: 0,
-    },
-    test(v) {
-      return {
-        x: 100 * v,
-        y: 100 * v,
-      };
-    },
-  },
   'nested-object-3': {
     from: {
       a: [
@@ -179,56 +143,18 @@ describe('parse from and to', () => {
     const item = examples[key];
     describe(key, function () {
       const { from, to, test } = item;
-      it('not Assign', function () {
+      it('tween', function () {
         const _from = cloneDeep(from);
-        const tween = parse(_from, to, {
-          isAssign: false,
-        });
+        const tween = parse(_from, to);
         STATUS_LIST.forEach((v) => {
           assert.deepEqual(
             tween(v),
             test(v, from, to),
             `\nfrom:${stringfy(from)}\nto:${stringfy(to)}\nstatus:${v}\n`,
           );
-          assert.deepEqual(_from, from);
-        });
-      });
-      it('assign', function () {
-        if (key === 'number') return;
-        STATUS_LIST.forEach((v) => {
-          const _from = cloneDeep(from);
-          const tween = parse(_from, to, {
-            isAssign: true,
-          });
-          tween(v);
-          assert.deepEqual(
-            _from,
-            test(v, from, to),
-            `\nfrom:${stringfy(from)}\nto:${stringfy(to)}\nstatus:${v}\n`,
-          );
         });
       });
     });
-  });
-
-  it('parse function "to" arguments', () => {
-    const options = {
-      isAssign: false,
-    };
-    const a = parse(
-      {
-        x: 0,
-        y: 1,
-      },
-      function (from: any, config) {
-        assert.equal(config, options);
-        return {
-          x: from.x + 100,
-          y: from.y + 100,
-        };
-      },
-      options,
-    );
   });
 
   it('parse error when meet NaN', () => {
@@ -242,9 +168,46 @@ describe('parse from and to', () => {
           x: 100,
           y: 100,
         },
+      );
+    });
+  });
+
+  it('parse error when different format', () => {
+    assert.throw(() => {
+      parse(
         {
-          isAssign: true,
+          x: 0,
         },
+        {
+          x: 100,
+          y: 100,
+        },
+      );
+    });
+
+    assert.throw(() => {
+      parse(
+        {
+          x: 0,
+        },
+        {
+          x: undefined,
+        },
+      );
+    });
+
+    assert.throw(() => {
+      parse(100, {
+        x: 0,
+      });
+    });
+
+    assert.throw(() => {
+      parse(
+        {
+          x: 0,
+        },
+        100,
       );
     });
   });

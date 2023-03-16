@@ -11,10 +11,7 @@
     "declaration": false,
     "sourceMap": true,
     "baseUrl": "./src",
-    "paths": {
-      "@/*": ["*"]
-    }
   },
-  "include": ["src"],
+  "include": ["src", "test"],
   "exclude": ["node_modules", "dist"]
 }
