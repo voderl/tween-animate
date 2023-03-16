@@ -23,7 +23,7 @@ export default [
       plugins: process.env.BUILD === 'production' ? [terser()] : [],
       file: pkg.main,
       format: 'umd',
-      sourcemap: true,
+      sourcemap: false,
     },
     plugins: [
       typescript(

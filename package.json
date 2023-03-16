@@ -1,13 +1,13 @@
 {
   "name": "tween-animate",
-  "version": "3.1.4",
+  "version": "4.0.0",
   "description": "a faster tween animate library",
   "homepage": "https://github.com/voderl/tween-animate",
   "scripts": {
     "watch": "rollup -c --environment BUILD:development -w",
     "build": "rollup -c --environment BUILD:production",
     "template": "supervisor -w ./dist/tween-animate.umd.js,./template/ ./template/server.js",
-    "test": "cross-env TS_NODE_COMPILER_OPTIONS={\\\"module\\\":\\\"commonjs\\\"} mocha --require ts-node/register 'src/**/*.spec.ts'"
+    "test": "cross-env TS_NODE_COMPILER_OPTIONS={\\\"module\\\":\\\"commonjs\\\"} mocha --require ts-node/register 'test/**/*.spec.ts'"
   },
   "keywords": [
     "tween",
@@ -18,14 +18,11 @@
     "dist",
     "README.md"
   ],
-  "_moduleAliases": {
-    "@": "src"
-  },
   "main": "./dist/tween-animate.umd.js",
   "module": "./dist/tween-animate.es.js",
   "types": "./dist/tween-animate.d.ts",
   "author": "voderl",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^13.0.0",
     "@rollup/plugin-node-resolve": "^8.1.0",
@@ -50,6 +47,6 @@
     "typescript": "^4.0.3"
   },
   "dependencies": {
-    "eventemitter3": "^4.0.4"
+    "eventemitter3": "^4.0.7"
   }
 }

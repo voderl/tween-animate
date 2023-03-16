@@ -1,18 +1,7 @@
 /**
  * parse from and to
- * @example 
-      parseFromTo(
-        { x: [1, 2, 3], y: 1 },
-        { x: [1, 2, 6], y: 3 },
-        { isAssign: false },
-      );
- * @param a - from
- * @param b - status - range 0 - 1
- * @render ƒ anonymous(a,b) {
-            var a={};var a_x=a["x"]=[];a_x["2"]=3+b*3;a["y"]=1+b*2;return a;
-            }
  */
-import { TweenValue, TweenTo, AnimateOptions } from 'types';
+import { TweenValue, TweenTo } from 'types';
 /**
  * stringfy to a better message
  * @param value
@@ -41,25 +30,16 @@ class ParseError extends Error {
     _message = `"from" and "to" have different format`,
   ) {
     const message = `${_message}:
-"from":  ${stringfy(from)},
+"from": ${stringfy(from)},
 "to"  : ${stringfy(to)},
 `;
     super(message);
     this.name = 'Parse Error';
   }
 }
-// a: tweening object
-// b: status  0~1
 
-function getEmptyType(from: TweenValue): string {
-  if (Array.isArray(from)) return '[]';
-  if (typeof from === 'object') return '{}';
-  return `throw new Error(\`"from" type error: ${stringfy(from)}\`)`;
-}
-
-type Status = {
+type Context = {
   count: number;
-  config: AnimateOptions;
 };
 
 function isPlainNumber(v: any): v is number {
@@ -67,68 +47,54 @@ function isPlainNumber(v: any): v is number {
   return typeof v === 'number' && v === v;
 }
 
-function parse(
-  from: any,
-  _to: TweenTo,
-  config?: {
-    isAssign: boolean;
-  },
-) {
-  const { isAssign = true } = config || {};
+function parse(from: any, to: TweenTo) {
   let expression = '';
-  const status: Status = {
-    config: config as AnimateOptions,
+  const context: Context = {
     count: 0,
   };
-  const to = (
-    typeof _to === 'function' ? _to(from, status.config) : _to
-  ) as TweenValue;
   if (from !== to) {
     if (typeof to === 'object' && typeof from === 'object') {
-      expression =
-        (isAssign ? '' : `var a=${getEmptyType(from)};`) +
-        baseParseFromTo(from, to, 'a', isAssign, status);
+      expression = baseParseFromTo(from, to, 'a', context);
     } else if (isPlainNumber(to) && isPlainNumber(from)) {
       expression = `a=${from}+b*${to - from};`;
     } else throw new ParseError(from, to);
   }
+  // a: tweening object
+  // b: status  0~1
   const func = new Function('a', 'b', expression + 'return a;');
   return function tween(status: number) {
     return func(from, status);
   };
 }
 
+const doubleQuoteRegex = /"/g;
+
+function escapeDoubleQuote(input: string) {
+  if (input.indexOf(`"`) !== -1) return input.replace(doubleQuoteRegex, `\\"`);
+  return input;
+}
+
 function baseParseFromTo(
   from: any,
   to: TweenTo,
   expressionKey: string,
-  isAssign: boolean,
-  status: Status,
+  context: Context,
 ) {
   let expression = '';
   for (const key in to as any) {
     const fromValue = from[key];
-    const toValue =
-      typeof to[key] === 'function'
-        ? to[key](fromValue, status.config)
-        : to[key];
+    const toValue = to[key];
     if (fromValue !== toValue) {
       if (typeof toValue === 'object' && typeof fromValue === 'object') {
-        const newExpressionKey = `a${status.count++}`;
-        expression += `var ${newExpressionKey}=${expressionKey}["${key}"]${
-          isAssign ? '' : `=${getEmptyType(fromValue)}`
-        };${baseParseFromTo(
-          fromValue,
-          toValue,
-          newExpressionKey,
-          isAssign,
-          status,
-        )}`;
+        const newExpressionKey = `a${context.count++}`;
+        expression += `var ${newExpressionKey}=${expressionKey}["${escapeDoubleQuote(
+          key,
+        )}"];${baseParseFromTo(fromValue, toValue, newExpressionKey, context)}`;
       } else if (isPlainNumber(toValue) && isPlainNumber(fromValue)) {
-        expression += `${expressionKey}["${key}"]=${fromValue}+b*${
-          toValue - fromValue
-        };`;
-      } else throw new ParseError(fromValue, toValue);
+        expression += `${expressionKey}["${escapeDoubleQuote(
+          key,
+        )}"]=${fromValue}+b*${toValue - fromValue};`;
+      } else throw new ParseError(from, to);
     }
   }
   return expression;
