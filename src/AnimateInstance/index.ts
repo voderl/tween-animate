@@ -246,11 +246,17 @@ class AnimateInstance extends EventEmitter<
   complete() {
     this.isCompleted = true;
     this.emit('complete');
-    this.destroy();
+    if (this.isCompleted) {
+      this.destroy();
+    }
   }
 
   destroy() {
     this.isPlaying = false;
+
+    /** if you call destory directly, ensure this instance can be deleted in the list.  */
+    this.isCompleted = true;
+
     this.emit = null;
     this.removeAllListeners();
     this.tween = null;

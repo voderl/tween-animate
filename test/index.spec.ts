@@ -306,4 +306,15 @@ describe('tween', function () {
       done();
     });
   });
+
+  it('destory', (done) => {
+    const animate = Animate(0, 100, 1000);
+    setTimeout(() => {
+      assert.equal(Animate.list.includes(animate), true);
+      animate.destroy();
+      Animate.updateElpased(0);
+      assert.equal(Animate.list.includes(animate), false);
+      done();
+    });
+  });
 });
