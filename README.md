@@ -10,18 +10,20 @@ const { Easing } = Animate;
 Animate.play();
 
 Animate(0, 10, 1000)
-  .transform('step', 10)
   .transform('yoyo')
+  .transform('step', 20)
   .on('update', v => console.log(v));
 
 // console.log
-// 0 1 2 3 4 5 6 7 8 9 (10) 9 8 7 6 5 4 3 2 1 0
+// 0 1 2 3 4 5 6 7 8 9 10 9 8 7 6 5 4 3 2 1 0
 ```
 
 [Explore more with Codepen](https://codepen.io/voderl/pen/eYLKORr)
 
 ## get start
+
 ```html
+// Recommand the link below contains the current version
 <script src="https://unpkg.com/tween-animate/dist/tween-animate.umd.js"></script>
 ```
 ```shell
